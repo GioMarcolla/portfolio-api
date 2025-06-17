@@ -5,7 +5,7 @@ import { ExperienceData } from "../data/experienceData.js";
 
 export const ExperienceDataRoutes = async (fastify: FastifyInstance) => {
     fastify.get(
-        "/educationData",
+        "/experienceData",
         { schema: EducationDataSchema },
         async (): Promise<ExperienceDataType[]> => {
             return ExperienceData;
