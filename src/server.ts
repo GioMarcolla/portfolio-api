@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { BioDataRoutes } from "./routes/bioDataRoutes";
-import { EducationDataRoutes } from "./routes/educationDataRoutes";
+import { BioDataRoutes } from "./routes/bioDataRoutes.js";
+import { EducationDataRoutes } from "./routes/educationDataRoutes.js";
 
 const fastify = Fastify({ logger: true });
 

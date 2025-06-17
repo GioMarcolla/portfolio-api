@@ -1,4 +1,4 @@
-import { BioDataType } from "../types/bioDataType";
+import { BioDataType } from "../types/bioDataType.js";
 
 export const BioData: BioDataType = {
     Name: {

@@ -1,6 +1,6 @@
 import { FastifySchema } from "fastify";
-import { BasicDateSchema } from "./basicDateSchema";
-import { BasicLocationSchema } from "./basicLocationSchema";
+import { BasicDateSchema } from "./basicDateSchema.js";
+import { BasicLocationSchema } from "./basicLocationSchema.js";
 
 export const EducationDataSchema: FastifySchema = {
     response: {

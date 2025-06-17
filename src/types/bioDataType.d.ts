@@ -1,5 +1,5 @@
-import { BasicLocationType } from "./basicLocationType";
-import { BasicDateType } from "./basicDateType";
+import { BasicLocationType } from "./basicLocationType.js";
+import { BasicDateType } from "./basicDateType.js";
 
 export type BioDataNameType = {
     First: string;

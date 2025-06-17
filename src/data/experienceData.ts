@@ -1,4 +1,4 @@
-import { ExperienceDataType } from "../types/experienceDataType";
+import { ExperienceDataType } from "../types/experienceDataType.js";
 
 export const ExperienceData: ExperienceDataType[] = [
     {
