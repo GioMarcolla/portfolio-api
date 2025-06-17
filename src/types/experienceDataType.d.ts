@@ -1,5 +1,5 @@
-import { BasicDateType } from "./basicDateType";
-import { BasicLocationType } from "./basicLocationType";
+import { BasicDateType } from "./basicDateType.js";
+import { BasicLocationType } from "./basicLocationType.js";
 
 export type ExperienceDateStartedType = BasicDateType;
 

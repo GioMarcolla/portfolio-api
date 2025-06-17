@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
-import { BioDataSchema } from "../schemas/bioDataSchema";
-import { BioDataType } from "../types/bioDataType";
-import { BioData } from "../data/bioData";
+import { BioDataSchema } from "../schemas/bioDataSchema.js";
+import { BioDataType } from "../types/bioDataType.js";
+import { BioData } from "../data/bioData.js";
 
 export const BioDataRoutes = async (fastify: FastifyInstance) => {
     fastify.get(

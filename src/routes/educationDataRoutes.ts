@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
-import { EducationDataType } from "../types/educationDataType";
-import { EducationData } from "../data/educationData";
-import { EducationDataSchema } from "../schemas/educationDataSchema";
+import { EducationDataType } from "../types/educationDataType.js";
+import { EducationData } from "../data/educationData.js";
+import { EducationDataSchema } from "../schemas/educationDataSchema.js";
 
 export const EducationDataRoutes = async (fastify: FastifyInstance) => {
     fastify.get(
