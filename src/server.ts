@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { BioDataRoutes } from "./routes/bioDataRoutes.js";
 import { EducationDataRoutes } from "./routes/educationDataRoutes.js";
+import { ExperienceDataRoutes } from "./routes/experienceDataRoutes.js";
 
 const fastify = Fastify({ logger: true });
 
@@ -11,7 +12,7 @@ await fastify.register(cors);
 // Routes
 await fastify.register(BioDataRoutes);
 await fastify.register(EducationDataRoutes);
-
+await fastify.register(ExperienceDataRoutes);
 
 fastify.get("/health", async () => {
     return { status: "ok" };
