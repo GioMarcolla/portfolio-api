@@ -49,9 +49,7 @@ export const ExperienceDataSchema: FastifySchema = {
                 required: [
                     "id",
                     "CompanyName",
-                    "Country",
-                    "State",
-                    "City",
+                    "Location",
                     "JobTitle",
                     "JobType",
                     "Description",
