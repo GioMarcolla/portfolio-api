@@ -1,5 +1,4 @@
 import { FastifyInstance } from "fastify";
-import { EducationDataSchema } from "../schemas/educationDataSchema.js";
 import { ExperienceDataType } from "../types/experienceDataType.js";
 import { ExperienceData } from "../data/experienceData.js";
 import { ExperienceDataSchema } from "../schemas/experienceDataSchema.js";
