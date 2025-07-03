@@ -74,8 +74,11 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
     await registerSchemas(fastify);
     await registerRoutes(fastify);
 
-    fastify.get("/health", async () => {
-        return { status: "ok" };
+    fastify.get("/health", {
+        preHandler: [], // bypass hooks
+        handler: async () => {
+            return { status: "ok" };
+        },
     });
 
     await startPgListener();
