@@ -12,6 +12,7 @@ import {
 } from "./utils/fastifyUtils.js";
 import { startPgListener } from "./utils/pgListeners.js";
 import auth from "./hooks/authHook.js";
+import { verifyOrigin } from "./hooks/originHook.js";
 
 dotenv.config();
 
@@ -67,7 +68,8 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
     await fastify.register(cors);
 
     // Hoks
-    await fastify.addHook("preHandler", auth);
+    fastify.addHook("preHandler", verifyOrigin);
+    fastify.addHook("preHandler", auth);
 
     await registerSchemas(fastify);
     await registerRoutes(fastify);
