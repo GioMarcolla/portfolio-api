@@ -1,4 +1,9 @@
-import { FastifyInstance, FastifyTypeProviderDefault } from "fastify";
+import {
+    FastifyInstance,
+    FastifyReply,
+    FastifyRequest,
+    FastifyTypeProviderDefault,
+} from "fastify";
 
 import {
     BiodataRoutes,

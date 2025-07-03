@@ -11,6 +11,7 @@ import {
     registerSchemas,
 } from "./utils/fastifyUtils.js";
 import { startPgListener } from "./utils/pgListeners.js";
+import auth from "./hooks/authHook.js";
 
 dotenv.config();
 
@@ -61,8 +62,12 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
         loggerInstance: logger,
     });
 
+    // Middleware
     await fastify.register(env, options);
     await fastify.register(cors);
+
+    // Hoks
+    await fastify.addHook("preHandler", auth);
 
     await registerSchemas(fastify);
     await registerRoutes(fastify);

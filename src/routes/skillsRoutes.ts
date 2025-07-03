@@ -1,12 +1,11 @@
-import { FastifyInstance } from "fastify";
-
-import { getAllExperience, getAllSkills } from "../db/index.js";
+import { getAllSkills } from "../db/index.js";
 import { type SkillType } from "../zod/schemas/index.js";
 import { cacheManager } from "../utils/cache.js";
 import { parseSkills } from "../parsers/skillsParsers.js";
 import { SkillsDBType } from "../db/db.pgSchema.js";
+import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
-export const SkillsRoutes = async (fastify: FastifyInstance) => {
+export const SkillsRoutes = async (fastify: CustomFastifyInstance) => {
     fastify.get(
         "/skills",
         {

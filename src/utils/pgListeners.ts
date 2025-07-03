@@ -14,7 +14,7 @@ export const startPgListener = async () => {
     const connectAndListen = async () => {
         try {
             await client.connect();
-            console.log(
+            logger.info(
                 "👂 Listening to DB notifications on channel 'table_update'"
             );
 
@@ -29,18 +29,18 @@ export const startPgListener = async () => {
 
             client.on("error", (err: any) => {
                 logger.error("❌ PG listener error:", err);
-                setTimeout(connectAndListen, 3000);
+                setTimeout(connectAndListen, 500);
             });
 
             client.on("end", () => {
                 logger.warn("🔌 PG listener disconnected. Reconnecting...");
-                setTimeout(connectAndListen, 3000);
+                setTimeout(connectAndListen, 500);
             });
 
             await client.query("LISTEN table_update");
         } catch (err) {
             logger.error("❌ Error setting up PG listener:", err);
-            setTimeout(connectAndListen, 3000);
+            setTimeout(connectAndListen, 500);
         }
     };
 

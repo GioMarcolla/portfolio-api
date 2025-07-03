@@ -1,13 +1,12 @@
-import { FastifyInstance } from "fastify";
-
 import { type EducationType } from "../zod/schemas/index.js";
 import { cacheManager } from "../utils/cache.js";
 import { EducationDBType } from "../db/db.pgSchema.js";
 import { getAllEducation } from "../db/index.js";
 import { logger } from "../server.js";
 import { parseEducation } from "../parsers/educationParsers.js";
+import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
-export const EducationRoutes = async (fastify: FastifyInstance) => {
+export const EducationRoutes = async (fastify: CustomFastifyInstance) => {
     fastify.get(
         "/education",
         {

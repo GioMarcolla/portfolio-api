@@ -1,13 +1,12 @@
-import { FastifyInstance } from "fastify";
-
 import { getAllExperience } from "../db/index.js";
 import { parseExperience } from "../parsers/index.js";
 import { type ExperienceType } from "../zod/schemas/index.js";
 import { logger } from "../server.js";
 import { ExperienceDBType } from "../db/db.pgSchema.js";
 import { cacheManager } from "../utils/cache.js";
+import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
-export const ExperienceRoutes = async (fastify: FastifyInstance) => {
+export const ExperienceRoutes = async (fastify: CustomFastifyInstance) => {
     fastify.get(
         "/experience",
         {

@@ -1,13 +1,12 @@
-import { FastifyInstance } from "fastify";
-
 import { type BiodataType } from "../zod/schemas/index.js";
 import { getBiodata } from "../db/index.js";
 import { parseBiodata } from "../parsers/index.js";
 import { logger } from "../server.js";
 import { cacheManager } from "../utils/cache.js";
 import { BiodataDBType } from "../db/db.pgSchema.js";
+import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
-export const BiodataRoutes = async (fastify: FastifyInstance) => {
+export const BiodataRoutes = async (fastify: CustomFastifyInstance) => {
     fastify.get(
         "/biodata",
         {
