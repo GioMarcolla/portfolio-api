@@ -8,6 +8,8 @@ export async function verifyOrigin(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
+    if (request.url === "/health") return;
+
     const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",");
     const origin = request.headers["origin"] || request.headers["referer"];
     if (

@@ -5,6 +5,8 @@ import { logger } from "../server.js";
 dotenv.config();
 
 const auth = async (request: FastifyRequest, reply: FastifyReply) => {
+    if (request.url === "/health") return;
+
     const apiKey = request.headers["x-api-key"];
     const knownKey = process.env.API_KEY;
 
