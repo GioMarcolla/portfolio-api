@@ -6,8 +6,8 @@
     "scripts": {
         "dev": "tsx src/main.ts",
         "build": "tsc",
-        "start": "bun run build && node dist/main.js",
-        "db:generate": "un run build && drizzle-kit generate --config ./dist/drizzle.config.js",
+        "start": "npm run build && node dist/main.js",
+        "db:generate": "bun run build && drizzle-kit generate --config ./dist/drizzle.config.js",
         "db:migrate": "drizzle-kit migrate --config ./dist/drizzle.config.js"
     },
     "keywords": [],
