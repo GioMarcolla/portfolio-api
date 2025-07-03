@@ -7,20 +7,42 @@ dotenv.config();
 
 export const startPgListener = async () => {
     const client = new Client({
-        connectionString: process.env.DATABASE_URL_DIRECT || "",
+        connectionString: process.env.DATABASE_URL,
         ssl: { rejectUnauthorized: false },
     });
 
-    await client.connect();
+    const connectAndListen = async () => {
+        try {
+            await client.connect();
+            console.log(
+                "👂 Listening to DB notifications on channel 'table_update'"
+            );
 
-    client.on("notification", (msg) => {
-        if (msg.channel === "table_update" && msg.payload) {
-            logger.info(`🔄 DB change detected on table: ${msg.payload}`);
-            cacheManager.invalidate(msg.payload); // implement this to clear your in-memory cache
+            client.on("notification", (msg: any) => {
+                if ((msg.channel === "table_update" && msg.payload) || "") {
+                    logger.info(
+                        `🔄 DB change detected on table: ${msg.payload || ""}`
+                    );
+                    cacheManager.invalidate(msg.payload);
+                }
+            });
+
+            client.on("error", (err: any) => {
+                logger.error("❌ PG listener error:", err);
+                setTimeout(connectAndListen, 3000);
+            });
+
+            client.on("end", () => {
+                logger.warn("🔌 PG listener disconnected. Reconnecting...");
+                setTimeout(connectAndListen, 3000);
+            });
+
+            await client.query("LISTEN table_update");
+        } catch (err) {
+            logger.error("❌ Error setting up PG listener:", err);
+            setTimeout(connectAndListen, 3000);
         }
-    });
+    };
 
-    await client.query("LISTEN table_update");
-
-    logger.info("👂 Listening to DB notifications on channel 'table_update'");
+    await connectAndListen();
 };
