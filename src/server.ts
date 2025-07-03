@@ -1,33 +1,79 @@
+import dotenv from "dotenv";
 import Fastify from "fastify";
+
 import cors from "@fastify/cors";
-import { BioDataRoutes } from "./routes/bioDataRoutes.js";
-import { EducationDataRoutes } from "./routes/educationDataRoutes.js";
-import { ExperienceDataRoutes } from "./routes/experienceDataRoutes.js";
+import env from "@fastify/env";
 
-const fastify = Fastify({ logger: true });
+import { createLogger, Level } from "./utils/logger.js";
+import {
+    CustomFastifyInstance,
+    registerRoutes,
+    registerSchemas,
+} from "./utils/fastifyUtils.js";
+import { startPgListener } from "./utils/pgListeners.js";
 
-// Middleware
-await fastify.register(cors);
+dotenv.config();
 
-// Routes
-await fastify.register(BioDataRoutes);
-await fastify.register(EducationDataRoutes);
-await fastify.register(ExperienceDataRoutes);
+const level = process.env.PINO_LOG_LEVEL as Level;
+const isDev = process.env.NODE_ENV === "development";
+const logger = createLogger({ level, isDev });
 
-fastify.get("/health", async () => {
-    return { status: "ok" };
-});
-
-const start = async () => {
-    try {
-        await fastify.listen({
-            port: parseInt(process.env.PORT || "3000"),
-            host: "0.0.0.0",
-        });
-    } catch (err) {
-        fastify.log.error(err);
-        process.exit(1);
-    }
+const schema = {
+    type: "object",
+    required: ["PORT", "DATABASE_URL"],
+    properties: {
+        PORT: {
+            type: "string",
+            default: 3000,
+        },
+        DATABASE_URL: {
+            type: "string",
+        },
+        PINO_LOG_LEVEL: {
+            type: "string",
+            default: "error",
+        },
+        NODE_ENV: {
+            type: "string",
+            default: "production",
+        },
+    },
 };
 
-start();
+const options = {
+    schema: schema,
+    dotenv: true,
+};
+
+declare module "fastify" {
+    interface FastifyInstance {
+        config: {
+            PORT: string;
+            DATABASE_URL: string;
+            PINO_LOG_LEVEL: string;
+            NODE_ENV: string;
+        };
+    }
+}
+
+const createServer = async (): Promise<CustomFastifyInstance> => {
+    const fastify = Fastify({
+        loggerInstance: logger,
+    });
+
+    await fastify.register(env, options);
+    await fastify.register(cors);
+
+    await registerSchemas(fastify);
+    await registerRoutes(fastify);
+
+    fastify.get("/health", async () => {
+        return { status: "ok" };
+    });
+
+    await startPgListener();
+
+    return fastify;
+};
+
+export { logger, createServer };

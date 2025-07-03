@@ -1,0 +1,1 @@
+ALTER TABLE "experience" ALTER COLUMN "description" SET DATA TYPE varchar(4096);

@@ -1,0 +1,1 @@
+ALTER TABLE "education" ALTER COLUMN "location_city" SET NOT NULL;

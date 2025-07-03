@@ -1,1 +1,8 @@
 /dist
+.env
+.env.local
+.env.dev
+.env.test
+/node_modules
+/dist
+/.cache

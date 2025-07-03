@@ -1,0 +1,469 @@
+{
+  "id": "30bdfad1-1dda-428e-a69d-c04fb8eda6bc",
+  "prevId": "a63771b1-e4f1-4ce2-a1a8-c7fe99f3a965",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.biodata": {
+      "name": "biodata",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "middle_name": {
+          "name": "middle_name",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nickname": {
+          "name": "nickname",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "birth_year": {
+          "name": "birth_year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "birth_month": {
+          "name": "birth_month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "birth_day": {
+          "name": "birth_day",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gender": {
+          "name": "gender",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "profession": {
+          "name": "profession",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nationalities": {
+          "name": "nationalities",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "resident_country": {
+          "name": "resident_country",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "resident_state": {
+          "name": "resident_state",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "resident_city": {
+          "name": "resident_city",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.education": {
+      "name": "education",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "institution": {
+          "name": "institution",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_country": {
+          "name": "location_country",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_state": {
+          "name": "location_state",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_city": {
+          "name": "location_city",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "degree": {
+          "name": "degree",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "degree_short": {
+          "name": "degree_short",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "major": {
+          "name": "major",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "track": {
+          "name": "track",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_started_year": {
+          "name": "date_started_year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_started_month": {
+          "name": "date_started_month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_started_day": {
+          "name": "date_started_day",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_completed_year": {
+          "name": "date_completed_year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_completed_month": {
+          "name": "date_completed_month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_completed_day": {
+          "name": "date_completed_day",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "completed": {
+          "name": "completed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.experience": {
+      "name": "experience",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "company_name": {
+          "name": "company_name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "department": {
+          "name": "department",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "team": {
+          "name": "team",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_country": {
+          "name": "location_country",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_state": {
+          "name": "location_state",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_city": {
+          "name": "location_city",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "job_title": {
+          "name": "job_title",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "job_type": {
+          "name": "job_type",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "level": {
+          "name": "level",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "responsibilities": {
+          "name": "responsibilities",
+          "type": "varchar(1024)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(2048)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "achievements": {
+          "name": "achievements",
+          "type": "varchar(1024)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_started_year": {
+          "name": "date_started_year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_started_month": {
+          "name": "date_started_month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_started_day": {
+          "name": "date_started_day",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_end_year": {
+          "name": "date_end_year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_end_month": {
+          "name": "date_end_month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_end_day": {
+          "name": "date_end_day",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "current_job": {
+          "name": "current_job",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.skills": {
+      "name": "skills",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "level": {
+          "name": "level",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
