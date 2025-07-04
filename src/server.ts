@@ -33,7 +33,7 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
     });
 
     await registerMiddlewares(fastify);
-    await registerHooks;
+    await registerHooks(fastify);
     await registerSchemas(fastify);
     await registerRoutes(fastify);
 

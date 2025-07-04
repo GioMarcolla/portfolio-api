@@ -20,7 +20,7 @@ import { IncomingMessage, Server, ServerResponse } from "http";
 import { Logger } from "pino";
 import { verifyOrigin } from "../hooks/originHook.js";
 import auth from "../hooks/authHook.js";
-import { cacheInvalidationHook } from "../hooks/cacheInvalidationHook.js";
+import { cacheInvalidation } from "../hooks/cacheInvalidationHook.js";
 
 export const isDev = process.env.NODE_ENV === "development";
 
@@ -114,7 +114,7 @@ const registerMiddlewares = async (fastify: CustomFastifyInstance) => {
 };
 
 const registerHooks = async (fastify: CustomFastifyInstance) => {
-    fastify.addHook("preHandler", cacheInvalidationHook);
+    fastify.addHook("preHandler", cacheInvalidation);
     fastify.addHook("preHandler", verifyOrigin);
     fastify.addHook("onRequest", auth);
 };

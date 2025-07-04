@@ -82,7 +82,7 @@ const invalidateCacheIfNeeded = async () => {
         cacheManager.invalidate(table);
     }
 
-    clearTablesUpdated()
-}
+    clearTablesUpdated();
+};
 
-export { cacheManager, invalidateCacheIfNeeded }
+export { cacheManager, invalidateCacheIfNeeded };

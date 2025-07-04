@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { invalidateCacheIfNeeded } from "../utils/cache.js";
 import { logger } from "../server.js";
 
-export const cacheInvalidationHook = async (
+export const cacheInvalidation = async (
     request: FastifyRequest,
     reply: FastifyReply
 ) => {
