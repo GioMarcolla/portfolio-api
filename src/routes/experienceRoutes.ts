@@ -40,7 +40,7 @@ export const ExperienceRoutes = async (fastify: CustomFastifyInstance) => {
                 "experience",
                 getAndParseExperience
             );
-            return cached || ([] as ExperienceType[]);
+            return cached;
         }
     );
 };

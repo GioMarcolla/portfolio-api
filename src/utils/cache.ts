@@ -16,7 +16,7 @@ class CacheManager {
     async get<T>(
         key: string,
         getter: () => Promise<T | void>
-    ): Promise<T | null> {
+    ): Promise<T> {
         const entry = this.cache[key];
 
         if (!entry || Date.now() > entry.expiresAt) {
@@ -31,12 +31,10 @@ class CacheManager {
                 logger.error(
                     "Failed to get new data. Using stale data or null!"
                 );
-
-                return entry.data;
             }
         }
 
-        return entry.data;
+        return entry.data
     }
 
     set<T>(key: string, data: T, ttlMs?: number): void {

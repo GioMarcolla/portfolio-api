@@ -39,7 +39,7 @@ export const SkillsRoutes = async (fastify: CustomFastifyInstance) => {
                 "skills",
                 getAndParseSkills
             );
-            return cached || ([] as SkillType[]);
+            return cached;
         }
     );
 };

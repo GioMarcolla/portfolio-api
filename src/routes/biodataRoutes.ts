@@ -38,7 +38,7 @@ export const BiodataRoutes = async (fastify: CustomFastifyInstance) => {
                 getAndParseBiodata
             );
 
-            return cached || ({} as BiodataType);
+            return cached;
         }
     );
 };

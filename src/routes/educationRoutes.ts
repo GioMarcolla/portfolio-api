@@ -40,7 +40,7 @@ export const EducationRoutes = async (fastify: CustomFastifyInstance) => {
                 "education",
                 getAndParseEducation
             );
-            return cached || ([] as EducationType[]);
+            return cached;
         }
     );
 };
