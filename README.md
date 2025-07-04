@@ -1,4 +1,4 @@
-## Fastify Backend – Giovanni Marcolla
+## Fastify Backend
 
 A robust and fully typed backend server built with modern tools and best practices. This project leverages Fastify for performance, Drizzle ORM for type-safe PostgreSQL access (via Neon), and a custom in-memory cache layer with automatic invalidation on table updates. Fully written in **TypeScript** with schema validation using **Zod**.
 
