@@ -3,6 +3,7 @@ import Fastify from "fastify";
 
 import cors from "@fastify/cors";
 import env from "@fastify/env";
+import rateLimit from "@fastify/rate-limit";
 
 import { createLogger, Level } from "./utils/logger.js";
 import {
@@ -65,12 +66,29 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
 
     // Middleware
     await fastify.register(env, options);
-    await fastify.register(cors);
+    await fastify.register(cors, {
+        origin: (origin, cb) => {
+            const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(
+                ","
+            );
+            if (origin && allowedOrigins.includes(origin)) {
+                cb(null, true);
+            } else {
+                cb(new Error("Not allowed by CORS"), false);
+            }
+        },
+    });
+
+    await fastify.register(rateLimit, {
+        max: isDev ? 1000 : 120, // Render will trigger a helth check every couple seconds
+        timeWindow: "1 minute",
+    });
 
     // Hoks
     fastify.addHook("preHandler", verifyOrigin);
-    fastify.addHook("preHandler", auth);
+    fastify.addHook("onRequest", auth);
 
+    // Register Helpers
     await registerSchemas(fastify);
     await registerRoutes(fastify);
 
@@ -78,6 +96,7 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
         return { status: "ok" };
     });
 
+    // DB event listeners
     await startPgListener();
 
     return fastify;
