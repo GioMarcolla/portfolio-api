@@ -86,9 +86,12 @@ EXECUTE FUNCTION notify_table_update();
 
    ```env
    DATABASE_URL=your-neon-postgres-url
-   NODE_ENV=development
-   PINO_LOG_LEVEL=debug
+   DATABASE_URL_DIRECT=your-neon-postgres-url_direct (no pooling). Used for listeners.
+   NODE_ENV=development || porduction
+   PINO_LOG_LEVEL=debug || production
    PORT=3001
+   API_KEY=your-api-key
+   ALLOWED_ORIGINS=string of allowed origins separeted by a comma(,)
    ```
 
 3. **Generate DB types**  
