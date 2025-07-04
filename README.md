@@ -36,12 +36,13 @@ A robust and fully typed backend server built with modern tools and best practic
 .
 ├── src/
 │   ├── db/                  # Drizzle + table exports
+│   ├── hooks/               # Fasitfy hooks
 │   ├── parsers/             # Data parsers 
 │   ├── routes/              # Fastify routes
 │   ├── utils/
 │   │   ├── cache.ts         # Cache manager (with TTL and invalidation)
 │   │   ├── logger.ts        # Pino logger config
-│   │   └── pgListeners.ts   # Listens to DB NOTIFY and invalidates cache
+│   │   └── fastifyUtils.ts  # Utils to clean up and organize server creation
 │   ├── zod/                 # Zod schemas per table
 │   ├── main.ts              # Entry point
 │   └── server.ts            # Fastify + bootstrap
@@ -52,23 +53,39 @@ A robust and fully typed backend server built with modern tools and best practic
 ## 🧠 How Caching Works
 
 - The backend caches data for read-heavy endpoints like `/experience`, `/education`, etc.
-- PostgreSQL triggers (`AFTER INSERT/UPDATE/DELETE`) on each relevant table call a `pg_notify` via the `notify_table_update()` function.
-- A dedicated `pg` client listens on the `table_update` channel and invalidates only the cache for that specific table.
+- PostgreSQL triggers (`AFTER INSERT/UPDATE/DELETE`) on each relevant table call the `notify_table_update()` function.
+- Instead of just sending notifications, `notify_table_update()` appends the updated table name (if not already present) to the `tables_updated` column and updates the `updated_at` timestamp in a singleton row of a dedicated `db_status` table.
+- A dedicated PostgreSQL client listens on the `table_update` notification channel but mainly relies on the `db_status` table to determine which tables have changed since last cache invalidation.
+- On every request, the backend checks the `db_status` table's `updated_at` timestamp and invalidates cache entries for all tables listed in `tables_updated`. After invalidation, the `tables_updated` column is cleared.
 
-Example Trigger:
+Example Trigger Function:
 
 ```sql
 CREATE OR REPLACE FUNCTION notify_table_update() RETURNS trigger AS $$
 BEGIN
+  UPDATE db_status SET
+    tables_updated = CASE
+      WHEN tables_updated IS NULL THEN TG_TABLE_NAME
+      WHEN tables_updated = '' THEN TG_TABLE_NAME
+      WHEN (',' || tables_updated || ',') NOT LIKE '%,' || TG_TABLE_NAME || ',%' THEN tables_updated || ',' || TG_TABLE_NAME
+      ELSE tables_updated
+    END,
+    updated_at = NOW()
+  WHERE id = '7b5fe238-c031-4caa-b28d-f635f310d949'; -- Singleton row ID
+
   PERFORM pg_notify('table_update', TG_TABLE_NAME);
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS experience_table_update_trigger ON experience;
 
-CREATE TRIGGER experience_trigger
+CREATE TRIGGER experience_table_update_trigger
 AFTER INSERT OR UPDATE OR DELETE ON experience
 FOR EACH STATEMENT
 EXECUTE FUNCTION notify_table_update();
+
+...
 ```
 
 ---
