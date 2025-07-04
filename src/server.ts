@@ -8,10 +8,8 @@ import {
     registerSchemas,
     isDev,
     registerMiddlewares,
+    registerHooks,
 } from "./utils/fastifyUtils.js";
-import { startPgListener } from "./utils/pgListeners.js";
-import auth from "./hooks/authHook.js";
-import { verifyOrigin } from "./hooks/originHook.js";
 
 dotenv.config();
 
@@ -34,19 +32,10 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
         loggerInstance: logger,
     });
 
-    // Middleware
     await registerMiddlewares(fastify);
-
-    // Hoks
-    fastify.addHook("preHandler", verifyOrigin);
-    fastify.addHook("onRequest", auth);
-
-    // Register Helpers
+    await registerHooks;
     await registerSchemas(fastify);
     await registerRoutes(fastify);
-
-    // DB event listeners
-    await startPgListener();
 
     return fastify;
 };

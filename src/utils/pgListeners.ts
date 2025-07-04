@@ -1,57 +1,60 @@
 import { Client } from "pg";
-import { cacheManager } from "./cache.js"; // adjust path if needed
-import dotenv from "dotenv";
+import { cacheManager } from "./cache.js";
 import { logger } from "../server.js";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-export const startPgListener = async () => {
-    const client = new Client({
+let client: Client | null = null;
+let initialized = false;
+
+export const ensurePgListenerStarted = async () => {
+    if (initialized) return;
+
+    logger.info("🚀 Starting PG listener...");
+
+    client = new Client({
         connectionString: process.env.DATABASE_URL_DIRECT,
-        // ssl: { rejectUnauthorized: false },
+        ssl: { rejectUnauthorized: false },
     });
 
-    const connectAndListen = async () => {
+    try {
+        await client.connect();
+
+        client.on("notification", (msg: any) => {
+            const payload = msg.payload || "";
+            if (msg.channel === "table_update") {
+                logger.info(`🔄 DB change detected on table: ${payload}`);
+                cacheManager.invalidate(payload);
+            }
+        });
+
+        client.on("error", async (err: any) => {
+            logger.error("❌ PG listener error:", err);
+            await stopPgListener();
+        });
+
+        client.on("end", async () => {
+            logger.warn("🔌 PG listener disconnected");
+            await stopPgListener();
+        });
+
+        await client.query("LISTEN table_update");
+        initialized = true;
+        logger.info("✅ PG listener connected and listening");
+    } catch (err) {
+        logger.error("❌ Error starting PG listener:", err);
+    }
+};
+
+export const stopPgListener = async () => {
+    if (client) {
         try {
-            await client.connect();
-
-            logger.info(
-                "👂 Listening to DB notifications on channel 'table_update'"
-            );
-
-            client.on("notification", (msg: any) => {
-                msg.payload = msg.payload || "";
-                if (msg.channel === "table_update") {
-                    logger.info(
-                        `🔄 DB change detected on table: ${msg.payload}`
-                    );
-                    cacheManager.invalidate(msg.payload);
-                } else {
-                    logger.info(
-                        `🔄 Received unknown notification: ${msg.payload}`
-                    );
-                }
-            });
-
-            client.on("error", async (err: any) => {
-                await client.end(); // Safely kill previous connection
-                logger.error("❌ PG listener error:", err);
-                setTimeout(connectAndListen, 500);
-            });
-
-            client.on("end", async () => {
-                await client.end(); // Safely kill previous connection
-                logger.warn("🔌 PG listener disconnected. Reconnecting...");
-                setTimeout(connectAndListen, 500);
-            });
-
-            await client.query("LISTEN table_update");
-        } catch (err) {
-            await client.end(); // Safely kill previous connection
-            logger.error("❌ Error setting up PG listener:", err);
-            setTimeout(connectAndListen, 500);
+            await client.end();
+        } catch (e) {
+            logger.warn("⚠️ Error while stopping PG listener:", e);
         }
-    };
-
-    await connectAndListen();
+        client = null;
+        initialized = false;
+    }
 };
