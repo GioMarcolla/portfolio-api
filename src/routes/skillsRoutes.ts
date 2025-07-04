@@ -5,6 +5,18 @@ import { parseSkills } from "../parsers/skillsParsers.js";
 import { SkillsDBType } from "../db/db.pgSchema.js";
 import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
+export const getAndParseSkills = async () => {
+    try {
+        const data: SkillsDBType[] = await getAllSkills();
+        if (!data) throw Error("Received empty response from DB.");
+
+        const parsedData: SkillType[] = parseSkills(data);
+        return parsedData;
+    } catch (e) {
+        return console.error(e);
+    }
+};
+
 export const SkillsRoutes = async (fastify: CustomFastifyInstance) => {
     fastify.get(
         "/skills",
@@ -23,21 +35,11 @@ export const SkillsRoutes = async (fastify: CustomFastifyInstance) => {
             },
         },
         async (): Promise<SkillType[]> => {
-            const cached = cacheManager.get<SkillType[]>("skills");
-            if (cached) return cached;
-
-            try {
-                const data: SkillsDBType[] = await getAllSkills();
-                if (!data) throw Error("Received empty response from DB.");
-
-                const parsedData: SkillType[] = parseSkills(data);
-                cacheManager.set("skills", parsedData);
-
-                return parsedData;
-            } catch (e) {
-                console.error(e);
-                return [];
-            }
+            const cached = await cacheManager.get<SkillType[]>(
+                "skills",
+                getAndParseSkills
+            );
+            return cached || ([] as SkillType[]);
         }
     );
 };

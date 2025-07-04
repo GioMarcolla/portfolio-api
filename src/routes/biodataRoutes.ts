@@ -6,6 +6,18 @@ import { cacheManager } from "../utils/cache.js";
 import { BiodataDBType } from "../db/db.pgSchema.js";
 import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
+export const getAndParseBiodata = async () => {
+    try {
+        const data: BiodataDBType[] = await getBiodata();
+        if (!data) throw Error("Received empty response from DB.");
+
+        const parsedData: BiodataType = parseBiodata(data[0]);
+        return parsedData;
+    } catch (e) {
+        return logger.error(e);
+    }
+};
+
 export const BiodataRoutes = async (fastify: CustomFastifyInstance) => {
     fastify.get(
         "/biodata",
@@ -21,21 +33,12 @@ export const BiodataRoutes = async (fastify: CustomFastifyInstance) => {
             },
         },
         async (): Promise<BiodataType> => {
-            const cached = cacheManager.get<BiodataType>("biodata");
-            if (cached) return cached;
+            const cached = await cacheManager.get<BiodataType>(
+                "biodata",
+                getAndParseBiodata
+            );
 
-            try {
-                const data: BiodataDBType[] = await getBiodata();
-                if (!data) throw Error("Received empty response from DB.");
-
-                const parsedData: BiodataType = parseBiodata(data[0]);
-                cacheManager.set("biodata", parsedData);
-
-                return parsedData;
-            } catch (e) {
-                logger.error(e);
-                return {} as BiodataType;
-            }
+            return cached || ({} as BiodataType);
         }
     );
 };

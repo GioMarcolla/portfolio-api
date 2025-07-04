@@ -1,3 +1,5 @@
+import { logger } from "../server.js";
+
 type CacheEntry<T> = {
     data: T;
     expiresAt: number; // timestamp
@@ -11,13 +13,27 @@ class CacheManager {
         this.defaultTTL = defaultTTLMs;
     }
 
-    get<T>(key: string): T | null {
+    async get<T>(
+        key: string,
+        getter: () => Promise<T | void>
+    ): Promise<T | null> {
         const entry = this.cache[key];
-        if (!entry) return null;
 
-        if (Date.now() > entry.expiresAt) {
-            delete this.cache[key];
-            return null;
+        if (!entry || Date.now() > entry.expiresAt) {
+            const newData = await getter();
+
+            if (newData) {
+                if (entry) delete this.cache[key]; // Clear stale data if exists
+                this.set(key, newData); // Set new data
+
+                return this.cache[key].data;
+            } else {
+                logger.error(
+                    "Failed to get new data. Using stale data or null!"
+                );
+
+                return entry.data;
+            }
         }
 
         return entry.data;

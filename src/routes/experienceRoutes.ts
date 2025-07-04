@@ -6,6 +6,18 @@ import { ExperienceDBType } from "../db/db.pgSchema.js";
 import { cacheManager } from "../utils/cache.js";
 import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
+export const getAndParseExperience = async () => {
+    try {
+        const data: ExperienceDBType[] = await getAllExperience();
+        if (!data) throw Error("Received empty response from DB.");
+
+        const parsedData: ExperienceType[] = parseExperience(data);
+        return parsedData;
+    } catch (e) {
+        return logger.error(e);
+    }
+};
+
 export const ExperienceRoutes = async (fastify: CustomFastifyInstance) => {
     fastify.get(
         "/experience",
@@ -24,21 +36,11 @@ export const ExperienceRoutes = async (fastify: CustomFastifyInstance) => {
             },
         },
         async (): Promise<ExperienceType[]> => {
-            const cached = cacheManager.get<ExperienceType[]>("experience");
-            if (cached) return cached;
-
-            try {
-                const data: ExperienceDBType[] = await getAllExperience();
-                if (!data) throw Error("Received empty response from DB.");
-
-                const parsedData: ExperienceType[] = parseExperience(data);
-                cacheManager.set("experience", parsedData);
-
-                return parsedData;
-            } catch (e) {
-                logger.error(e);
-                return [] as ExperienceType[];
-            }
+            const cached = await cacheManager.get<ExperienceType[]>(
+                "experience",
+                getAndParseExperience
+            );
+            return cached || ([] as ExperienceType[]);
         }
     );
 };

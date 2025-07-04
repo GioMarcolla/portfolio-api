@@ -6,6 +6,18 @@ import { logger } from "../server.js";
 import { parseEducation } from "../parsers/educationParsers.js";
 import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
+export const getAndParseEducation = async () => {
+    try {
+        const data: EducationDBType[] = await getAllEducation();
+        if (!data) throw Error("Received empty response from DB.");
+
+        const parsedData: EducationType[] = parseEducation(data);
+        return parsedData;
+    } catch (e) {
+        return logger.error(e);
+    }
+};
+
 export const EducationRoutes = async (fastify: CustomFastifyInstance) => {
     fastify.get(
         "/education",
@@ -24,21 +36,11 @@ export const EducationRoutes = async (fastify: CustomFastifyInstance) => {
             },
         },
         async (): Promise<EducationType[]> => {
-            const cached = cacheManager.get<EducationType[]>("education");
-            if (cached) return cached;
-
-            try {
-                const data: EducationDBType[] = await getAllEducation();
-                if (!data) throw Error("Received empty response from DB.");
-
-                const parsedData: EducationType[] = parseEducation(data);
-                cacheManager.set("education", parsedData);
-
-                return parsedData;
-            } catch (e) {
-                logger.error(e);
-                return [] as EducationType[];
-            }
+            const cached = await cacheManager.get<EducationType[]>(
+                "education",
+                getAndParseEducation
+            );
+            return cached || ([] as EducationType[]);
         }
     );
 };

@@ -7,8 +7,8 @@ dotenv.config();
 
 export const startPgListener = async () => {
     const client = new Client({
-        connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false },
+        connectionString: process.env.DATABASE_URL_DIRECT,
+        // ssl: { rejectUnauthorized: false },
     });
 
     const connectAndListen = async () => {
@@ -19,11 +19,16 @@ export const startPgListener = async () => {
             );
 
             client.on("notification", (msg: any) => {
-                if ((msg.channel === "table_update" && msg.payload) || "") {
+                msg.payload = msg.payload || "";
+                if (msg.channel === "table_update") {
                     logger.info(
-                        `🔄 DB change detected on table: ${msg.payload || ""}`
+                        `🔄 DB change detected on table: ${msg.payload}`
                     );
                     cacheManager.invalidate(msg.payload);
+                } else {
+                    logger.info(
+                        `🔄 Received unknown notification: ${msg.payload}`
+                    );
                 }
             });
 
