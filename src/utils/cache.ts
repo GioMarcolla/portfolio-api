@@ -1,4 +1,6 @@
 import { logger } from "../server.js";
+import { clearTablesUpdated, getDBStatus } from "../db/dbStatus/index.js"; // your drizzle or pg instance
+import { dbStatusDBType } from "../db/db.pgSchema.js";
 
 type CacheEntry<T> = {
     data: T;
@@ -13,10 +15,7 @@ class CacheManager {
         this.defaultTTL = defaultTTLMs;
     }
 
-    async get<T>(
-        key: string,
-        getter: () => Promise<T | void>
-    ): Promise<T> {
+    async get<T>(key: string, getter: () => Promise<T | void>): Promise<T> {
         const entry = this.cache[key];
 
         if (!entry || Date.now() > entry.expiresAt) {
@@ -34,7 +33,7 @@ class CacheManager {
             }
         }
 
-        return entry.data
+        return entry.data;
     }
 
     set<T>(key: string, data: T, ttlMs?: number): void {
@@ -57,4 +56,33 @@ class CacheManager {
     }
 }
 
-export const cacheManager = new CacheManager(24 * 60 * 60 * 1000); // 24h default TTL
+const cacheManager = new CacheManager(24 * 60 * 60 * 1000); // 24h default TTL
+
+const invalidateCacheIfNeeded = async () => {
+    const dbStatus = await getDBStatus();
+
+    if (!dbStatus) {
+        logger.warn("DB Status singleton not found!");
+        return;
+    }
+
+    const { tablesUpdated } = dbStatus;
+    if (!tablesUpdated) return;
+
+    const tables = tablesUpdated
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+    if (tables.length === 0) return;
+
+    logger.info(`Invalidating cache for tables: ${tables.join(", ")}`);
+
+    for (const table of tables) {
+        cacheManager.invalidate(table);
+    }
+
+    clearTablesUpdated()
+}
+
+export { cacheManager, invalidateCacheIfNeeded }

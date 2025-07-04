@@ -57,6 +57,13 @@
       "when": 1751558898393,
       "tag": "0007_thankful_network",
       "breakpoints": false
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1751639326520,
+      "tag": "0008_minor_kinsey_walden",
+      "breakpoints": false
     }
   ]
 }

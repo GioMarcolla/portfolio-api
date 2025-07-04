@@ -16,3 +16,4 @@ export * from "./biodata/index.js";
 export * from "./experience/index.js";
 export * from "./skills/index.js";
 export * from "./education/index.js";
+export * from "./dbStatus/index.js";
