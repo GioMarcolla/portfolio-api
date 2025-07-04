@@ -13,7 +13,7 @@ export const startPgListener = async () => {
 
     const connectAndListen = async () => {
         try {
-            client.connect();
+            await client.connect();
 
             logger.info(
                 "👂 Listening to DB notifications on channel 'table_update'"
