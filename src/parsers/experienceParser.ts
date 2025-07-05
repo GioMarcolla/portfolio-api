@@ -16,7 +16,7 @@ export const parseExperience = (
                 State: item.locationState,
                 City: item.locationCity,
             },
-            JobTitle: item.jobType,
+            JobTitle: item.jobTitle,
             JobType: item.jobType,
             Level: item.level || undefined,
             Responsibilities: item.responsibilities,

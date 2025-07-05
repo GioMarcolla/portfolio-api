@@ -10,7 +10,15 @@ const auth = async (request: FastifyRequest, reply: FastifyReply) => {
     const apiKey = request.headers["x-api-key"];
     const knownKey = process.env.API_KEY;
 
+    logger.info(apiKey);
+    logger.info(knownKey);
+
     if (!knownKey || apiKey !== knownKey) {
+        logger.info("entered?");
+        logger.info(!knownKey);
+        logger.info(apiKey !== knownKey);
+        logger.info(!knownKey || apiKey !== knownKey);
+
         if (!knownKey)
             logger.error(
                 "Missing API Key. All routes will be blocked. Please update the enviroment variables."
