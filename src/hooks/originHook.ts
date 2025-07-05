@@ -14,7 +14,6 @@ export async function verifyOrigin(
     const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(",");
     if (isDev) allowedOrigins.push("http://localhost:3000")
 
-
     const origin = request.headers["origin"] || request.headers["referer"];
     if (
         !allowedOrigins ||
