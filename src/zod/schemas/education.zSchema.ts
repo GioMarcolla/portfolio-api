@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { BasicDateSchema } from "./basicDate.zSchema.js";
 import { BasicLocationSchema } from "./basicLocation.zSchema.js";
-import zodToJsonSchema from "zod-to-json-schema";
 
 export const EducationSchema = z.object({
     id: z.string(),
@@ -15,11 +14,7 @@ export const EducationSchema = z.object({
     DateStarted: BasicDateSchema,
     DateCompleted: BasicDateSchema.optional(),
     Completed: z.boolean(),
-
-    toString: z.function().returns(z.string()),
 });
 
 export type EducationType = z.infer<typeof EducationSchema>;
-export const EducationJsonSchema = zodToJsonSchema(EducationSchema, {
-    name: "Education",
-});
+export const EducationJsonSchema = z.toJSONSchema(EducationSchema);

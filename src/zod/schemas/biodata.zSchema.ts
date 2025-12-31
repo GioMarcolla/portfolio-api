@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import zodToJsonSchema from 'zod-to-json-schema';
 
 import { BasicDateSchema, BasicLocationSchema } from './index.js';
 
@@ -20,7 +19,4 @@ export const BiodataSchema = z.object({
 });
 
 export type BiodataType = z.infer<typeof BiodataSchema>;
-export const BiodataJsonSchema = zodToJsonSchema(BiodataSchema, {
-    name: "Biodata",
-});
-
+export const BiodataJsonSchema = z.toJSONSchema(BiodataSchema);

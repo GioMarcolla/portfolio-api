@@ -2,7 +2,6 @@ import { z } from "zod";
 import { BasicDateSchema } from "./basicDate.zSchema.js";
 import { BasicLocationSchema } from "./basicLocation.zSchema.js";
 import { SkillSchema } from "./skill.zSchema.js";
-import { zodToJsonSchema } from "zod-to-json-schema";
 
 export const ExperienceSchema = z.object({
     id: z.string(),
@@ -38,6 +37,4 @@ export const ExperienceSchema = z.object({
 });
 
 export type ExperienceType = z.infer<typeof ExperienceSchema>;
-export const ExperienceJsonSchema = zodToJsonSchema(ExperienceSchema, {
-    name: "Experience",
-});
+export const ExperienceJsonSchema = z.toJSONSchema(ExperienceSchema);
