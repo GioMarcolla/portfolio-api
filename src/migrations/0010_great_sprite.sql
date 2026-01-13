@@ -1,0 +1,2 @@
+ALTER TABLE "experience" ALTER COLUMN "responsibilities" SET DATA TYPE text[] USING string_to_array("responsibilities", '\\n');
+ALTER TABLE "experience" ALTER COLUMN "description" SET DATA TYPE text[] USING string_to_array("description", '\\n');

@@ -13,7 +13,7 @@ import {
 
 dotenv.config();
 
-const level = process.env.PINO_LOG_LEVEL as Level;
+const level = (process.env.PINO_LOG_LEVEL as Level) || "error";
 const logger = createLogger({ level, isDev });
 
 declare module "fastify" {

@@ -1,5 +1,13 @@
-import { pgTable, uuid, varchar, integer, boolean } from "drizzle-orm/pg-core";
+import {
+    pgTable,
+    uuid,
+    varchar,
+    integer,
+    boolean,
+    text,
+} from "drizzle-orm/pg-core";
 import { TimestampsDBSchema } from "../timestamp.pgSchema.js";
+import { ImageDBSchema, ImageDBType } from "../db.pgSchema.js";
 
 const ExperienceDBSchema = pgTable("experience", {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -27,8 +35,8 @@ const ExperienceDBSchema = pgTable("experience", {
         | "Founder"
         | "C-Suite"
     >(),
-    responsibilities: varchar("responsibilities", { length: 1024 }).notNull(),
-    description: varchar("description", { length: 4096 }).notNull(),
+    responsibilities: text("responsibilities").array().notNull(),
+    description: text("description").array().notNull(),
     achievements: varchar("achievements", { length: 1024 }),
     dateStartedYear: integer("date_started_year").notNull(),
     dateStartedMonth: integer("date_started_month").notNull(),
@@ -41,4 +49,10 @@ const ExperienceDBSchema = pgTable("experience", {
 });
 
 export { ExperienceDBSchema };
-export type ExperienceDBType = typeof ExperienceDBSchema.$inferSelect;
+//Add relations here to prevent TS issues
+export type ExperienceDBType = typeof ExperienceDBSchema.$inferSelect & {
+    highlights: {
+        position: number;
+        image: ImageDBType;
+    }[];
+};

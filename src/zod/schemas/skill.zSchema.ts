@@ -26,6 +26,4 @@ export const SkillSchema = z.object({
 });
 
 export type SkillType = z.infer<typeof SkillSchema>;
-export const SkillJsonSchema = zodToJsonSchema(SkillSchema, {
-    name: "Skill",
-});
+export const SkillJsonSchema = z.toJSONSchema(SkillSchema);

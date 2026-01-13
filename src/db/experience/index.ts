@@ -1,24 +1,72 @@
-import { asc, eq } from "drizzle-orm";
+import { asc, eq, sql } from "drizzle-orm";
 import { db } from "../index.js";
-import { ExperienceDBSchema } from "../db.pgSchema.js";
+import { ExperienceDBSchema, ImageDBSchema } from "../db.pgSchema.js";
+import { ExperienceImageDBSchema } from "../relations/experience-images.pgSchema.js";
 
 const getAllExperience = async () => {
     const result = await db
-        .select()
+        .select({
+            experience: ExperienceDBSchema,
+            images: sql<
+                {
+                    position: number;
+                    image: any;
+                }[]
+            >`(SELECT COALESCE(
+                json_agg(
+                    json_build_object(
+                    'position', ei.position,
+                    'image', to_jsonb(i)
+                    ) ORDER BY ei.position
+                ) FILTER (WHERE i.id IS NOT NULL),
+                '[]'::json
+            )
+            FROM experience_image ei
+            LEFT JOIN image i ON ei.image_id = i.id
+            WHERE ei.experience_id = experience.id)`,
+        })
         .from(ExperienceDBSchema)
         .orderBy(asc(ExperienceDBSchema.position));
 
-    return result;
+    if (!result) return [];
+
+    return result.map((item) => ({
+        ...item.experience,
+        highlights: item.images,
+    }));
 };
 
 const getExperience = async ({ id }: { id: string }) => {
     const result = await db
-        .select()
+        .select({
+            experience: ExperienceDBSchema,
+            images: sql<
+                {
+                    position: number;
+                    image: any;
+                }[]
+            >`(SELECT COALESCE(
+                json_agg(
+                    json_build_object(
+                    'position', ei.position,
+                    'image', to_jsonb(i)
+                    ) ORDER BY ei.position
+                ) FILTER (WHERE i.id IS NOT NULL),
+                '[]'::json
+            )
+            FROM experience_image ei
+            LEFT JOIN image i ON ei.image_id = i.id
+            WHERE ei.experience_id = experience.id)`,
+        })
         .from(ExperienceDBSchema)
-        .where(eq(ExperienceDBSchema.id, id))
-        .limit(1);
+        .where(eq(ExperienceDBSchema.id, id));
 
-    return result;
+    if (!result) return null;
+
+    return {
+        ...result[0].experience,
+        highlights: result[0].images,
+    };
 };
 
 export { getAllExperience, getExperience };
