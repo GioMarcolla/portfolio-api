@@ -11,6 +11,6 @@ export const cacheInvalidation = async (
     try {
         await invalidateCacheIfNeeded();
     } catch (err) {
-        logger.error("Cache invalidation failed", err);
+        logger.error({ err }, "Cache invalidation failed");
     }
 };

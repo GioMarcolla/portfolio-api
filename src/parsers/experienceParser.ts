@@ -1,5 +1,8 @@
 import { ExperienceDBType } from "../db/db.pgSchema.js";
 import { ExperienceType } from "../zod/schemas/experience.zSchema.js";
+import { parseImage } from "./imageParsers.js";
+
+
 
 export const parseExperience = (
     data: ExperienceDBType[]
@@ -36,6 +39,10 @@ export const parseExperience = (
                       }
                     : undefined,
             CurrentJob: item.currentJob,
+            Highlights: item.highlights.map((highlight) => ({
+                Position: highlight.position,
+                Image: parseImage(highlight.image),
+            })) || undefined,
             // Skills: item.skills || undefined,
         };
 

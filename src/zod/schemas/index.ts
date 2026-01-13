@@ -5,3 +5,5 @@ export * from "./biodata.zSchema.js";
 export * from "./education.zSchema.js";
 export * from "./experience.zSchema.js";
 export * from "./skill.zSchema.js";
+export * from "./image.zSchema.js";
+export * from "./basicHighlights.zSchema.js";

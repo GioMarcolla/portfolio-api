@@ -2,6 +2,7 @@ import { z } from "zod";
 import { BasicDateSchema } from "./basicDate.zSchema.js";
 import { BasicLocationSchema } from "./basicLocation.zSchema.js";
 import { SkillSchema } from "./skill.zSchema.js";
+import { BasicHighlightsSchema } from "./basicHighlights.zSchema.js";
 
 export const ExperienceSchema = z.object({
     id: z.string(),
@@ -27,13 +28,14 @@ export const ExperienceSchema = z.object({
             "C-Suite",
         ])
         .optional(),
-    Description: z.string(),
-    Responsibilities: z.string(),
+    Description: z.string().array(),
+    Responsibilities: z.string().array(),
     Achievements: z.string().optional(),
     DateStarted: BasicDateSchema,
     DateEnd: BasicDateSchema.optional(),
     CurrentJob: z.boolean(),
     Skills: z.array(SkillSchema).optional(),
+    Highlights: BasicHighlightsSchema.array().optional(),
 });
 
 export type ExperienceType = z.infer<typeof ExperienceSchema>;
