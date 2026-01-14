@@ -1,27 +1,21 @@
-import { ExperienceDBType } from "../db/db.pgSchema.js";
-import { ExperienceType } from "../zod/schemas/experience.zSchema.js";
+import { ProjectDBType } from "../db/db.pgSchema.js";
+import { ProjectType } from "../zod/schemas/project.zSchema.js";
 import { parseImage } from "./imageParsers.js";
 
-
-
-export const parseExperience = (
-    data: ExperienceDBType[]
-): ExperienceType[] => {
+export const parseProject = (
+    data: ProjectDBType[]
+): ProjectType[] => {
     return data.map((item) => {
-        const data: ExperienceType = {
+        const data: ProjectType = {
             id: item.id,
+            ProjectName: item.projectName,
             Position: item.position,
-            CompanyName: item.companyName,
-            Department: item.department || undefined,
-            Team: item.team || undefined,
             Location: {
                 Country: item.locationCountry,
                 State: item.locationState || undefined,
                 City: item.locationCity || undefined,
             },
             JobTitle: item.jobTitle,
-            JobType: item.jobType,
-            Level: item.level || undefined,
             Responsibilities: item.responsibilities,
             Description: item.description,
             Achievements: item.achievements || undefined,
@@ -38,7 +32,7 @@ export const parseExperience = (
                           Day: item.dateEndDay || undefined,
                       }
                     : undefined,
-            CurrentJob: item.currentJob,
+            CurrentProject: item.currentProject,
             Highlights: item.highlights.map((highlight) => ({
                 Position: highlight.position,
                 Image: parseImage(highlight.image),

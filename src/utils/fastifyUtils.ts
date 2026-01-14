@@ -8,12 +8,14 @@ import {
     BiodataRoutes,
     EducationRoutes,
     ExperienceRoutes,
+    ProjectsRoutes,
     SkillsRoutes,
 } from "../routes/index.js";
 import {
     BiodataJsonSchema,
     EducationJsonSchema,
     ExperienceJsonSchema,
+    ProjectJsonSchema,
     SkillJsonSchema,
 } from "../zod/schemas/index.js";
 import { IncomingMessage, Server, ServerResponse } from "http";
@@ -37,6 +39,7 @@ const registerRoutes = async (fastify: CustomFastifyInstance) => {
     await fastify.register(EducationRoutes);
     await fastify.register(ExperienceRoutes);
     await fastify.register(SkillsRoutes);
+    await fastify.register(ProjectsRoutes);
 
     fastify.get("/public/health", async () => {
         return { status: "ok" };
@@ -62,6 +65,11 @@ const registerSchemas = async (fastify: CustomFastifyInstance) => {
     fastify.addSchema({
         $id: "Skills",
         ...SkillJsonSchema,
+    });
+
+    fastify.addSchema({
+        $id: "Projects",
+        ...ProjectJsonSchema,
     });
 };
 

@@ -18,5 +18,7 @@ export * from "./skills/index.js";
 export * from "./education/index.js";
 export * from "./dbStatus/index.js";
 export * from "./images/index.js";
+export * from "./project/index.js";
 export * from "./relations/index.js";
 export * from "./relations/experience-images.pgSchema.js";
+export * from "./relations/project-images.pgSchema.js";
