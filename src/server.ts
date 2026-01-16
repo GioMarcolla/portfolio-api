@@ -43,3 +43,6 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
 };
 
 export { logger, createServer };
+
+const fastifyInstance = await createServer();
+export default serverless(fastifyInstance.server);
