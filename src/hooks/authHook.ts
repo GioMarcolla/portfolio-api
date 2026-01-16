@@ -5,6 +5,7 @@ import { logger } from "../server.js";
 dotenv.config();
 
 const auth = async (request: FastifyRequest, reply: FastifyReply) => {
+    if (request.method === "OPTIONS") return;
     if (/^\/public(\/[^\/]+)+/.test(request.url || "")) return;
 
     const apiKey = request.headers["x-api-key"];
