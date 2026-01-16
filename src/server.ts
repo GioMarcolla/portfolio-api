@@ -44,5 +44,16 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
 
 export { logger, createServer };
 
-const fastifyInstance = await createServer();
-export default serverless(fastifyInstance.server);
+let cachedServer: any;
+const getServer = async () => {
+  if (!cachedServer) {
+    const fastifyInstance = await createServer();
+    cachedServer = fastifyInstance.server;
+  }
+  return cachedServer;
+};
+
+export default async (req: any, res: any) => {
+  const server = await getServer();
+  return serverless(server)(req, res);
+};

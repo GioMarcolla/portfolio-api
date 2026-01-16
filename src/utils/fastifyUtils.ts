@@ -111,12 +111,11 @@ const registerMiddlewares = async (fastify: CustomFastifyInstance) => {
             console.log("Incoming Origin:", allowedOrigins);
 
             if (isDev) allowedOrigins.push("http://localhost:3000")
+            if (!origin) return cb(null, true);
 
-            if (!origin || (origin && allowedOrigins.includes(origin))) {
-                cb(null, true);
-            } else {
-                cb(new Error("Not allowed by CORS"), false);
-            }
+
+            const match = allowedOrigins.some(o => origin.startsWith(o));
+            return cb(null, match);
         },
         methods: ["GET", "POST", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization", "x-api-key"]
