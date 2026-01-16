@@ -9,7 +9,7 @@ export async function verifyOrigin(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
-    if (req.method === "OPTIONS") return;
+    if (request.method === "OPTIONS") return;
     if (/^\/public(\/[^\/]+)+/.test(request.url || "")) return;
 
     const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(",");
