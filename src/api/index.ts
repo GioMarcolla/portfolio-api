@@ -1,5 +1,5 @@
 import serverless from "serverless-http";
-import { createServer } from "./server.js";
+import { createServer } from "../server.js";
 
 const fastifyInstance = await createServer();
 
