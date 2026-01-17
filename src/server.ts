@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import Fastify from "fastify";
-import serverless from "serverless-http";
 
 
 import { createLogger, Level } from "./utils/logger.js";
@@ -32,28 +31,64 @@ declare module "fastify" {
 const createServer = async (): Promise<CustomFastifyInstance> => {
     const fastify = Fastify({
         loggerInstance: logger,
+        // Disable some features that don't work well in serverless
+        disableRequestLogging: process.env.VERCEL ? true : false,
+        ignoreTrailingSlash: true,
     });
 
-    await registerMiddlewares(fastify);
-    await registerHooks(fastify);
     await registerSchemas(fastify);
+    await registerMiddlewares(fastify);
     await registerRoutes(fastify);
+    await registerHooks(fastify);
 
     return fastify;
 };
 
 export { logger, createServer };
 
-let cachedHandler: any;
-const getServerlessHandler = async () => {
-  if (!cachedHandler) {
-    const fastifyInstance = await createServer();
-    cachedHandler = serverless(fastifyInstance.server);
+let cachedServer: any;
+const getServer = async () => {
+  if (!cachedServer) {
+    cachedServer = await createServer();
+    await cachedServer.ready();
   }
-  return cachedHandler;
+  return cachedServer;
 };
 
-export default async (req: any, res: any) => {
-  const handler = await getServerlessHandler();
-  return handler(req, res);
+interface VercelRequest {
+  method: string;
+  url: string;
+  body?: any;
+  headers: Record<string, string>;
+}
+
+interface VercelResponse {
+  statusCode: number;
+  setHeader: (key: string, value: string) => void;
+  end: (data?: string) => void;
+}
+
+export default async (req: VercelRequest, res: VercelResponse) => {
+  try {
+    const server = await getServer();
+    await server.ready();
+    await server.inject({ method: req.method, url: req.url, payload: req.body, headers: req.headers }, (err: Error | null, response: any) => {
+      if (err) {
+        server.log.error('Fastify inject error:', err);
+        res.statusCode = 500;
+        res.end('Internal Server Error');
+        return;
+      }
+
+      res.statusCode = response.statusCode;
+      Object.keys(response.headers).forEach(key => {
+        res.setHeader(key, response.headers[key]);
+      });
+      res.end(response.payload);
+    });
+  } catch (error) {
+    console.error('Serverless function error:', error);
+    res.statusCode = 500;
+    res.end('Internal Server Error');
+  }
 };

@@ -102,24 +102,29 @@ const options = {
 
 const registerMiddlewares = async (fastify: CustomFastifyInstance) => {
     await fastify.register(env, options);
-    await fastify.register(cors, {
-        origin: (origin, cb) => {
-            const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(
-                ","
-            );
-            fastify.log.trace("Incoming Origin: " + origin);
-            fastify.log.trace("Incoming Origin:" + allowedOrigins);
+    // Simplified CORS for serverless environments
+    if (process.env.VERCEL) {
+        await fastify.register(cors, {
+            origin: true, // Allow all origins in serverless
+            methods: ["GET", "POST", "OPTIONS"],
+            allowedHeaders: ["Content-Type", "Authorization", "x-api-key"]
+        });
+    } else {
+        await fastify.register(cors, {
+            origin: (origin, cb) => {
+                const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(
+                    ","
+                );
+                if (isDev) allowedOrigins.push("http://localhost:3000")
+                if (!origin) return cb(null, true);
 
-            if (isDev) allowedOrigins.push("http://localhost:3000")
-            if (!origin) return cb(null, true);
-
-
-            const match = allowedOrigins.some(o => origin.startsWith(o));
-            return cb(null, match);
-        },
-        methods: ["GET", "POST", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization", "x-api-key"]
-    });
+                const match = allowedOrigins.some(o => origin.startsWith(o));
+                return cb(null, match);
+            },
+            methods: ["GET", "POST", "OPTIONS"],
+            allowedHeaders: ["Content-Type", "Authorization", "x-api-key"]
+        });
+    }
 
     // Skip rate limiting in serverless environments as it doesn't work well with stateless functions
     if (!process.env.VERCEL) {
