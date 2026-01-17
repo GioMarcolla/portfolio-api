@@ -107,8 +107,8 @@ const registerMiddlewares = async (fastify: CustomFastifyInstance) => {
             const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(
                 ","
             );
-            console.log("Incoming Origin:", origin);
-            console.log("Incoming Origin:", allowedOrigins);
+            fastify.log.trace("Incoming Origin: " + origin);
+            fastify.log.trace("Incoming Origin:" + allowedOrigins);
 
             if (isDev) allowedOrigins.push("http://localhost:3000")
             if (!origin) return cb(null, true);
