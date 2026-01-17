@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import Fastify from "fastify";
-import serverless from "serverless-http";
 
 
 import { createLogger, Level } from "./utils/logger";
