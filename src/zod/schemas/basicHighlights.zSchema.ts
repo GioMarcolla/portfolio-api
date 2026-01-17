@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ImageSchema } from "./image.zSchema";
+import { ImageSchema } from "./image.zSchema.js";
 
 export const BasicHighlightsSchema = z.object({
     Position: z.number(),

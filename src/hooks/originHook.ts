@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { logger } from "../server";
-import { isDev } from "../utils/fastifyUtils";
+import { logger } from "../server.js";
+import { isDev } from "../utils/fastifyUtils.js";
 
 dotenv.config();
 

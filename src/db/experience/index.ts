@@ -1,6 +1,6 @@
 import { asc, eq, sql } from "drizzle-orm";
-import { db } from "../index";
-import { ExperienceDBSchema } from "../db.pgSchema";
+import { db } from "../index.js";
+import { ExperienceDBSchema } from "../db.pgSchema.js";
 
 const getAllExperience = async () => {
     const result = await db

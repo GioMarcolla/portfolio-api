@@ -1,5 +1,5 @@
-import { db } from "../index";
-import { dbStatusDBSchema, dbStatusDBType } from "./dbStatus.pgSchema";
+import { db } from "../index.js";
+import { dbStatusDBSchema, dbStatusDBType } from "./dbStatus.pgSchema.js";
 
 const getDBStatus = async () => {
     const result = await db.select().from(dbStatusDBSchema).limit(1);

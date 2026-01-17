@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { invalidateCacheIfNeeded } from "../utils/cache";
-import { logger } from "../server";
+import { invalidateCacheIfNeeded } from "../utils/cache.js";
+import { logger } from "../server.js";
 
 export const cacheInvalidation = async (
     request: FastifyRequest,

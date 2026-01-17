@@ -6,8 +6,8 @@ import {
     boolean,
     text,
 } from "drizzle-orm/pg-core";
-import { TimestampsDBSchema } from "../timestamp.pgSchema";
-import { ImageDBType } from "../db.pgSchema";
+import { TimestampsDBSchema } from "../timestamp.pgSchema.js";
+import { ImageDBType } from "../db.pgSchema.js";
 
 const ProjectDBSchema = pgTable("project", {
     id: uuid("id").primaryKey().defaultRandom(),

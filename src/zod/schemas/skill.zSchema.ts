@@ -1,6 +1,6 @@
 import { z } from "zod";
 import zodToJsonSchema from "zod-to-json-schema";
-// import { BasicIconSchema } from "./basicIcon.zSchema"; // Uncomment if using
+// import { BasicIconSchema } from "./basicIcon.zSchema.js"; // Uncomment if using
 
 export const SkillSchema = z.object({
     id: z.string(),

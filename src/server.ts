@@ -3,7 +3,7 @@ import Fastify from "fastify";
 import serverless from "serverless-http";
 
 
-import { createLogger, Level } from "./utils/logger";
+import { createLogger, Level } from "./utils/logger.js";
 import {
     CustomFastifyInstance,
     registerRoutes,
@@ -11,7 +11,7 @@ import {
     isDev,
     registerMiddlewares,
     registerHooks,
-} from "./utils/fastifyUtils";
+} from "./utils/fastifyUtils.js";
 
 dotenv.config();
 
@@ -43,3 +43,17 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
 };
 
 export { logger, createServer };
+
+let cachedServer: any;
+const getServer = async () => {
+  if (!cachedServer) {
+    const fastifyInstance = await createServer();
+    cachedServer = fastifyInstance.server;
+  }
+  return cachedServer;
+};
+
+export default async (req: any, res: any) => {
+  const server = await getServer();
+  return serverless(server)(req, res);
+};

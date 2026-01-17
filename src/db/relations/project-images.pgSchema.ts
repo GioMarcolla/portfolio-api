@@ -1,6 +1,6 @@
 import { pgTable, uuid, integer, primaryKey } from "drizzle-orm/pg-core";
-import { ImageDBSchema } from "../db.pgSchema";
-import { ProjectDBSchema } from "../project/project.pgSchema";
+import { ImageDBSchema } from "../db.pgSchema.js";
+import { ProjectDBSchema } from "../project/project.pgSchema.js";
 
 export const ProjectImageDBSchema = pgTable(
     "project_image",

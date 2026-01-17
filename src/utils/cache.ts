@@ -1,6 +1,6 @@
-import { logger } from "../server";
-import { clearTablesUpdated, getDBStatus } from "../db/dbStatus/index"; // your drizzle or pg instance
-import { dbStatusDBType } from "../db/db.pgSchema";
+import { logger } from "../server.js";
+import { clearTablesUpdated, getDBStatus } from "../db/dbStatus/index.js"; // your drizzle or pg instance
+import { dbStatusDBType } from "../db/db.pgSchema.js";
 
 type CacheEntry<T> = {
     data: T;

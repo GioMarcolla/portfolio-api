@@ -1,9 +1,9 @@
 import { relations } from "drizzle-orm";
-import { ExperienceDBSchema } from "../experience/experience.pgSchema";
-import { ImageDBSchema } from "../images/image.pgSchema";
-import { ExperienceImageDBSchema } from "./experience-images.pgSchema";
-import { ProjectImageDBSchema } from "./project-images.pgSchema";
-import { ProjectDBSchema } from "../project/project.pgSchema";
+import { ExperienceDBSchema } from "../experience/experience.pgSchema.js";
+import { ImageDBSchema } from "../images/image.pgSchema.js";
+import { ExperienceImageDBSchema } from "./experience-images.pgSchema.js";
+import { ProjectImageDBSchema } from "./project-images.pgSchema.js";
+import { ProjectDBSchema } from "../project/project.pgSchema.js";
 
 /* EXPERIENCE → IMAGES (N-N) */
 export const experienceRelations = relations(

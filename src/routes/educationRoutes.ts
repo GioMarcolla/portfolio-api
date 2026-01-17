@@ -1,10 +1,10 @@
-import { type EducationType } from "../zod/schemas/index";
-import { cacheManager } from "../utils/cache";
-import { EducationDBType } from "../db/db.pgSchema";
-import { getAllEducation } from "../db/index";
-import { logger } from "../server";
-import { parseEducation } from "../parsers/educationParsers";
-import { CustomFastifyInstance } from "../utils/fastifyUtils";
+import { type EducationType } from "../zod/schemas/index.js";
+import { cacheManager } from "../utils/cache.js";
+import { EducationDBType } from "../db/db.pgSchema.js";
+import { getAllEducation } from "../db/index.js";
+import { logger } from "../server.js";
+import { parseEducation } from "../parsers/educationParsers.js";
+import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
 export const getAndParseEducation = async () => {
     try {

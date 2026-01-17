@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
-import { db } from "../index";
-import { SkillsDBSchema } from "../db.pgSchema";
+import { db } from "../index.js";
+import { SkillsDBSchema } from "../db.pgSchema.js";
 
 const getAllSkills = async () => {
     const result = await db

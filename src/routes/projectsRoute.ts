@@ -1,10 +1,10 @@
-import { getAllProject } from "../db/index";
-import { parseProject } from "../parsers/index";
-import { type ProjectType } from "../zod/schemas/index";
-import { logger } from "../server";
-import { ProjectDBType } from "../db/db.pgSchema";
-import { cacheManager } from "../utils/cache";
-import { CustomFastifyInstance } from "../utils/fastifyUtils";
+import { getAllProject } from "../db/index.js";
+import { parseProject } from "../parsers/index.js";
+import { type ProjectType } from "../zod/schemas/index.js";
+import { logger } from "../server.js";
+import { ProjectDBType } from "../db/db.pgSchema.js";
+import { cacheManager } from "../utils/cache.js";
+import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
 export const getAndParseProjects = async () => {
     try {

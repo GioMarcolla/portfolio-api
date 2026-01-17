@@ -1,6 +1,6 @@
-import { ImageDBType, SkillsDBType } from "../db/db.pgSchema";
-import { ImageType } from "../zod/schemas/image.zSchema";
-import { SkillType } from "../zod/schemas/skill.zSchema";
+import { ImageDBType, SkillsDBType } from "../db/db.pgSchema.js";
+import { ImageType } from "../zod/schemas/image.zSchema.js";
+import { SkillType } from "../zod/schemas/skill.zSchema.js";
 
 export const parseImage = (data: ImageDBType): ImageType => {
     return {

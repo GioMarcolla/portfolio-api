@@ -1,6 +1,6 @@
-import { ProjectDBType } from "../db/db.pgSchema";
-import { ProjectType } from "../zod/schemas/project.zSchema";
-import { parseImage } from "./imageParsers";
+import { ProjectDBType } from "../db/db.pgSchema.js";
+import { ProjectType } from "../zod/schemas/project.zSchema.js";
+import { parseImage } from "./imageParsers.js";
 
 export const parseProject = (
     data: ProjectDBType[]

@@ -1,9 +1,9 @@
-import { getAllSkills } from "../db/index";
-import { type SkillType } from "../zod/schemas/index";
-import { cacheManager } from "../utils/cache";
-import { parseSkills } from "../parsers/skillsParsers";
-import { SkillsDBType } from "../db/db.pgSchema";
-import { CustomFastifyInstance } from "../utils/fastifyUtils";
+import { getAllSkills } from "../db/index.js";
+import { type SkillType } from "../zod/schemas/index.js";
+import { cacheManager } from "../utils/cache.js";
+import { parseSkills } from "../parsers/skillsParsers.js";
+import { SkillsDBType } from "../db/db.pgSchema.js";
+import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
 
 export const getAndParseSkills = async () => {
     try {

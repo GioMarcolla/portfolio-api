@@ -12,13 +12,13 @@ const pool = new Pool({
 const db = drizzle(pool);
 
 export { db };
-export * from "./biodata/index";
-export * from "./experience/index";
-export * from "./skills/index";
-export * from "./education/index";
-export * from "./dbStatus/index";
-export * from "./images/index";
-export * from "./project/index";
-export * from "./relations/index";
-export * from "./relations/experience-images.pgSchema";
-export * from "./relations/project-images.pgSchema";
+export * from "./biodata/index.js";
+export * from "./experience/index.js";
+export * from "./skills/index.js";
+export * from "./education/index.js";
+export * from "./dbStatus/index.js";
+export * from "./images/index.js";
+export * from "./project/index.js";
+export * from "./relations/index.js";
+export * from "./relations/experience-images.pgSchema.js";
+export * from "./relations/project-images.pgSchema.js";
