@@ -121,10 +121,13 @@ const registerMiddlewares = async (fastify: CustomFastifyInstance) => {
         allowedHeaders: ["Content-Type", "Authorization", "x-api-key"]
     });
 
-    await fastify.register(rateLimit, {
-        max: isDev ? 1000 : 120, // Render will trigger a helth check every couple seconds
-        timeWindow: "1 minute",
-    });
+    // Skip rate limiting in serverless environments as it doesn't work well with stateless functions
+    if (!process.env.VERCEL) {
+        await fastify.register(rateLimit, {
+            max: isDev ? 1000 : 120, // Render will trigger a helth check every couple seconds
+            timeWindow: "1 minute",
+        });
+    }
 };
 
 const registerHooks = async (fastify: CustomFastifyInstance) => {
