@@ -2,6 +2,7 @@ import { createServer } from "./server.js";
 
 const main = async () => {
     const fastify = await createServer();
+    await fastify.ready();
     const port = Number(fastify.config.PORT);
 
     try {
@@ -14,3 +15,5 @@ const main = async () => {
 };
 
 main();
+
+export default main
