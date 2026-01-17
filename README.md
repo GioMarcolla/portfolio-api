@@ -12,7 +12,7 @@ A robust and fully typed backend server built with modern tools and best practic
 - **Zod** – Type-safe schema validation
 - **Pino** – Structured logging with pretty formatting in development
 - **TypeScript** – Full static typing across the project
-- **Render** – Deployment platform (OnRender.com)
+- **Vercel** – Serverless Deployment platform (vercel.com)
 - **In-memory cache** – Custom cache layer with fine-grained invalidation
 
 ---
