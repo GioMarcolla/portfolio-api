@@ -33,7 +33,9 @@ const createServer = async (): Promise<CustomFastifyInstance> => {
         loggerInstance: logger,
         // Disable some features that don't work well in serverless
         disableRequestLogging: process.env.VERCEL ? true : false,
-        ignoreTrailingSlash: true,
+        routerOptions: {
+          ignoreTrailingSlash: true,
+        }
     });
 
     await registerSchemas(fastify);
