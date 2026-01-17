@@ -1,6 +1,6 @@
 import { asc, eq, sql } from "drizzle-orm";
-import { db } from "../index.js";
-import { ProjectDBSchema } from "./project.pgSchema.js";
+import { db } from "../index";
+import { ProjectDBSchema } from "./project.pgSchema";
 
 const getAllProject = async () => {
     const result = await db

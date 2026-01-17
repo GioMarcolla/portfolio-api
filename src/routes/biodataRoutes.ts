@@ -1,10 +1,10 @@
-import { type BiodataType } from "../zod/schemas/index.js";
-import { getBiodata } from "../db/index.js";
-import { parseBiodata } from "../parsers/index.js";
-import { logger } from "../server.js";
-import { cacheManager } from "../utils/cache.js";
-import { BiodataDBType } from "../db/db.pgSchema.js";
-import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
+import { type BiodataType } from "../zod/schemas/index";
+import { getBiodata } from "../db/index";
+import { parseBiodata } from "../parsers/index";
+import { logger } from "../server";
+import { cacheManager } from "../utils/cache";
+import { BiodataDBType } from "../db/db.pgSchema";
+import { CustomFastifyInstance } from "../utils/fastifyUtils";
 
 export const getAndParseBiodata = async () => {
     try {

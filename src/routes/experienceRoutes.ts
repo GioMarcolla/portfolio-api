@@ -1,10 +1,10 @@
-import { getAllExperience } from "../db/index.js";
-import { parseExperience } from "../parsers/index.js";
-import { type ExperienceType } from "../zod/schemas/index.js";
-import { logger } from "../server.js";
-import { ExperienceDBType } from "../db/db.pgSchema.js";
-import { cacheManager } from "../utils/cache.js";
-import { CustomFastifyInstance } from "../utils/fastifyUtils.js";
+import { getAllExperience } from "../db/index";
+import { parseExperience } from "../parsers/index";
+import { type ExperienceType } from "../zod/schemas/index";
+import { logger } from "../server";
+import { ExperienceDBType } from "../db/db.pgSchema";
+import { cacheManager } from "../utils/cache";
+import { CustomFastifyInstance } from "../utils/fastifyUtils";
 
 export const getAndParseExperience = async () => {
     try {

@@ -1,5 +1,5 @@
 import { pgTable, uuid, varchar, text } from "drizzle-orm/pg-core";
-import { TimestampsDBSchema } from "../timestamp.pgSchema.js";
+import { TimestampsDBSchema } from "../timestamp.pgSchema";
 
 const ImageDBSchema = pgTable("image", {
     id: uuid("id").primaryKey().defaultRandom(),

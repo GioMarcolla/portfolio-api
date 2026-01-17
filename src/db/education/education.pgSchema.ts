@@ -1,5 +1,5 @@
 import { pgTable, uuid, varchar, integer, boolean } from "drizzle-orm/pg-core";
-import { TimestampsDBSchema } from "../timestamp.pgSchema.js";
+import { TimestampsDBSchema } from "../timestamp.pgSchema";
 
 const EducationDBSchema = pgTable("education", {
     id: uuid("id").primaryKey().defaultRandom(),

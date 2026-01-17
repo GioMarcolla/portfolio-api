@@ -1,5 +1,5 @@
-import { EducationDBType } from "../db/db.pgSchema.js";
-import { EducationType } from "../zod/schemas/education.zSchema.js";
+import { EducationDBType } from "../db/db.pgSchema";
+import { EducationType } from "../zod/schemas/education.zSchema";
 
 export const parseEducation = (data: EducationDBType[]): EducationType[] => {
     return data.map((item) => {

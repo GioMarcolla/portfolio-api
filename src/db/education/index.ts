@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
-import { db } from "../index.js";
-import { EducationDBSchema } from "../db.pgSchema.js";
+import { db } from "../index";
+import { EducationDBSchema } from "../db.pgSchema";
 
 const getAllEducation = async () => {
     const result = await db

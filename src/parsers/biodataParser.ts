@@ -1,5 +1,5 @@
 import { BiodataDBType } from "../db/db.pgSchema";
-import { BiodataType } from "../zod/schemas/index.js";
+import { BiodataType } from "../zod/schemas/index";
 
 export const parseBiodata = (item: BiodataDBType): BiodataType => {
     return {

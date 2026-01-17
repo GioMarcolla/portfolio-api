@@ -1,6 +1,6 @@
-import { ExperienceDBType } from "../db/db.pgSchema.js";
-import { ExperienceType } from "../zod/schemas/experience.zSchema.js";
-import { parseImage } from "./imageParsers.js";
+import { ExperienceDBType } from "../db/db.pgSchema";
+import { ExperienceType } from "../zod/schemas/experience.zSchema";
+import { parseImage } from "./imageParsers";
 
 
 

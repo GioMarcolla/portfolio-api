@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { BasicDateSchema } from "./basicDate.zSchema.js";
-import { BasicLocationSchema } from "./basicLocation.zSchema.js";
+import { BasicDateSchema } from "./basicDate.zSchema";
+import { BasicLocationSchema } from "./basicLocation.zSchema";
 
 export const EducationSchema = z.object({
     id: z.string(),

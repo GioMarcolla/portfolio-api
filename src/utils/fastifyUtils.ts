@@ -10,19 +10,19 @@ import {
     ExperienceRoutes,
     ProjectsRoutes,
     SkillsRoutes,
-} from "../routes/index.js";
+} from "../routes/index";
 import {
     BiodataJsonSchema,
     EducationJsonSchema,
     ExperienceJsonSchema,
     ProjectJsonSchema,
     SkillJsonSchema,
-} from "../zod/schemas/index.js";
+} from "../zod/schemas/index";
 import { IncomingMessage, Server, ServerResponse } from "http";
 import { Logger } from "pino";
-import { verifyOrigin } from "../hooks/originHook.js";
-import auth from "../hooks/authHook.js";
-import { cacheInvalidation } from "../hooks/cacheInvalidationHook.js";
+import { verifyOrigin } from "../hooks/originHook";
+import auth from "../hooks/authHook";
+import { cacheInvalidation } from "../hooks/cacheInvalidationHook";
 
 export const isDev = process.env.NODE_ENV === "development";
 
@@ -107,8 +107,8 @@ const registerMiddlewares = async (fastify: CustomFastifyInstance) => {
             const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(
                 ","
             );
-            fastify.log.trace("Incoming Origin: " + origin);
-            fastify.log.trace("Incoming Origin:" + allowedOrigins);
+            fastify.log.info(`Incoming Origin: ${origin}`);
+            fastify.log.info(`Incoming Origin: ${allowedOrigins}`);
 
             if (isDev) allowedOrigins.push("http://localhost:3000")
             if (!origin) return cb(null, true);
@@ -122,7 +122,7 @@ const registerMiddlewares = async (fastify: CustomFastifyInstance) => {
     });
 
     await fastify.register(rateLimit, {
-        max: isDev ? 1000 : 120, // Render will trigger a helth check every couple seconds
+        max: isDev ? 1000 : 120,
         timeWindow: "1 minute",
     });
 };

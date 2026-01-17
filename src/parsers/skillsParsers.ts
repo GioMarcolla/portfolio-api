@@ -1,5 +1,5 @@
-import { SkillsDBType } from "../db/db.pgSchema.js";
-import { SkillType } from "../zod/schemas/skill.zSchema.js";
+import { SkillsDBType } from "../db/db.pgSchema";
+import { SkillType } from "../zod/schemas/skill.zSchema";
 
 export const parseSkills = (
     data: SkillsDBType[]

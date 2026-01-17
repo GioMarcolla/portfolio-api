@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db } from "../index.js";
-import { ImageDBSchema } from "../db.pgSchema.js";
+import { db } from "../index";
+import { ImageDBSchema } from "../db.pgSchema";
 
 const getAllImages = async () => {
     const result = await db

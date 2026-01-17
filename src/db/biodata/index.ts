@@ -1,5 +1,5 @@
-import { db } from "../index.js";
-import { BiodataDBSchema } from "../db.pgSchema.js";
+import { db } from "../index";
+import { BiodataDBSchema } from "../db.pgSchema";
 
 const getBiodata = async () => {
     const result = await db.select().from(BiodataDBSchema).limit(1);

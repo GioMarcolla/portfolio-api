@@ -1,5 +1,5 @@
 import { pgTable, uuid, integer, primaryKey } from "drizzle-orm/pg-core";
-import { ExperienceDBSchema, ImageDBSchema } from "../db.pgSchema.js";
+import { ExperienceDBSchema, ImageDBSchema } from "../db.pgSchema";
 
 export const ExperienceImageDBSchema = pgTable(
     "experience_image",
