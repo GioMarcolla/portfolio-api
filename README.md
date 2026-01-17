@@ -145,9 +145,11 @@ EXECUTE FUNCTION notify_table_update();
 
 - `GET /experience`
 - `GET /education`
-- `GET /skills`
+- `GET /skills (pending)`
 - `GET /biodata`
-- `GET /projects (Pending)`
+- `GET /projects`
+- `GET /events (pending)`
+- `GET /certifications (pending)`
 - `GET /health` → simple health check
 
 ---
@@ -163,7 +165,7 @@ This project is **fully typed** using TypeScript:
 
 ## 📦 Deployment
 
-- Deploy to [Render](https://render.com) with:
+- Deploy to [Vercel](https://vercel.com) with:
   - PostgreSQL (NeonDB) connected via `DATABASE_URL`
   - PostgreSQL (NeonDB) direct connected via `DATABASE_URL_DIRECT`
 
